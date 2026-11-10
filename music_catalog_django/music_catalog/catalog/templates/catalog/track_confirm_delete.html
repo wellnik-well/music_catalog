@@ -1,0 +1,10 @@
+{% extends "catalog/base.html" %}
+{% block content %}
+<h1>Удалить трек?</h1>
+<p>Трек «{{ track.title }}» будет удалён, в том числе из всех плейлистов.</p>
+<form method="post" class="form-actions">
+  {% csrf_token %}
+  <a class="btn" href="{% url 'track_list' %}">Отмена</a>
+  <button class="btn danger" type="submit">Удалить</button>
+</form>
+{% endblock %}

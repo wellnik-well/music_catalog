@@ -1,0 +1,54 @@
+{% extends "catalog/base.html" %}
+{% block content %}
+<div class="split">
+  <aside class="card">
+    <h2>Мои плейлисты</h2>
+    <form method="post" action="{% url 'playlist_create' %}" class="stack">
+      {% csrf_token %}
+      {{ form.name }}
+      <button class="btn primary" type="submit">+ Новый плейлист</button>
+    </form>
+    <ul class="list">
+      {% for p in playlists %}
+        <li><a class="{% if current and p.pk == current.pk %}active{% endif %}" href="{% url 'playlist_detail' p.pk %}">{{ p.name }}</a></li>
+      {% empty %}
+        <li class="empty">Плейлистов пока нет</li>
+      {% endfor %}
+    </ul>
+  </aside>
+
+  <section class="card">
+    {% if current %}
+      <div class="section-head">
+        <h2>{{ current.name }}</h2>
+        <form method="post" action="{% url 'playlist_delete' current.pk %}">
+          {% csrf_token %}
+          <button class="btn danger small" type="submit">Удалить плейлист</button>
+        </form>
+      </div>
+      <table class="table">
+        <thead><tr><th>№</th><th>Трек</th><th>Исполнитель</th><th>Длительность</th><th></th></tr></thead>
+        <tbody>
+          {% for e in entries %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ e.track.title }}</td>
+            <td>{{ e.track.album.artist.name }}</td>
+            <td>{{ e.track.duration_display }}</td>
+            <td class="actions">
+              <form method="post" action="{% url 'playlist_move_entry' e.pk 'up' %}" class="inline">{% csrf_token %}<button class="btn small" type="submit">↑</button></form>
+              <form method="post" action="{% url 'playlist_move_entry' e.pk 'down' %}" class="inline">{% csrf_token %}<button class="btn small" type="submit">↓</button></form>
+              <form method="post" action="{% url 'playlist_remove_entry' e.pk %}" class="inline">{% csrf_token %}<button class="btn small danger" type="submit">Убрать</button></form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5" class="empty">В плейлисте пока нет треков. Добавьте их из каталога.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="empty">Создайте первый плейлист слева.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

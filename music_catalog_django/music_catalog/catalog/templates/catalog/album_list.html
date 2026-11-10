@@ -1,0 +1,11 @@
+{% extends "catalog/base.html" %}
+{% block content %}
+<h1>Альбомы</h1>
+<ul class="list">
+  {% for album in albums %}
+    <li><a href="{% url 'album_detail' album.pk %}">{{ album.title }}</a> <span class="muted">{{ album.artist.name }}{% if album.year %}, {{ album.year }}{% endif %}</span></li>
+  {% empty %}
+    <li class="empty">Альбомов пока нет</li>
+  {% endfor %}
+</ul>
+{% endblock %}

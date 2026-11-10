@@ -1,0 +1,27 @@
+{% load static %}<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Каталог музыки{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'catalog/style.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{% url 'track_list' %}">Каталог музыки</a>
+    <nav>
+      <a href="{% url 'track_list' %}" class="{% if section == 'tracks' %}active{% endif %}">Треки</a>
+      <a href="{% url 'artist_list' %}" class="{% if section == 'artists' %}active{% endif %}">Исполнители</a>
+      <a href="{% url 'album_list' %}" class="{% if section == 'albums' %}active{% endif %}">Альбомы</a>
+      <a href="{% url 'playlist_list' %}" class="{% if section == 'playlists' %}active{% endif %}">Плейлисты</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    {% for message in messages %}
+      <div class="flash {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

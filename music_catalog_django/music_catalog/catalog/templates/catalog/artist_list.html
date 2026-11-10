@@ -1,0 +1,11 @@
+{% extends "catalog/base.html" %}
+{% block content %}
+<h1>Исполнители</h1>
+<ul class="list">
+  {% for a in artists %}
+    <li><a href="{% url 'artist_detail' a.pk %}">{{ a.name }}</a>{% if a.country %} <span class="muted">{{ a.country }}</span>{% endif %}</li>
+  {% empty %}
+    <li class="empty">Исполнителей пока нет</li>
+  {% endfor %}
+</ul>
+{% endblock %}

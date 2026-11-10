@@ -1,0 +1,19 @@
+{% extends "catalog/base.html" %}
+{% block content %}
+<div class="card">
+  <h1>{{ artist.name }}</h1>
+  {% if artist.country %}<p class="muted">Страна: {{ artist.country }}</p>{% endif %}
+  {% if artist.description %}<p>{{ artist.description }}</p>{% endif %}
+</div>
+<h2>Альбомы</h2>
+<div class="grid">
+  {% for album in albums %}
+    <a class="card" href="{% url 'album_detail' album.pk %}">
+      <strong>{{ album.title }}</strong>
+      <div class="muted">{{ album.year|default:"—" }} · {{ album.genre_names|default:"без жанра" }}</div>
+    </a>
+  {% empty %}
+    <p class="empty">У исполнителя пока нет альбомов</p>
+  {% endfor %}
+</div>
+{% endblock %}

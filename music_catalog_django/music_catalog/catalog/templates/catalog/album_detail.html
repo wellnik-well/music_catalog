@@ -1,0 +1,17 @@
+{% extends "catalog/base.html" %}
+{% block content %}
+<div class="card">
+  <h1>{{ album.title }}</h1>
+  <p class="muted"><a href="{% url 'artist_detail' album.artist.pk %}">{{ album.artist.name }}</a>{% if album.year %} · {{ album.year }}{% endif %}{% if album.genre_names %} · {{ album.genre_names }}{% endif %}</p>
+</div>
+<table class="table">
+  <thead><tr><th>№</th><th>Название</th><th>Длительность</th></tr></thead>
+  <tbody>
+    {% for t in tracks %}
+      <tr><td>{{ t.track_number|default:"" }}</td><td>{{ t.title }}</td><td>{{ t.duration_display }}</td></tr>
+    {% empty %}
+      <tr><td colspan="3" class="empty">В альбоме пока нет треков</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
